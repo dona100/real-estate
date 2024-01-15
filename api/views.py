@@ -33,25 +33,31 @@ class LoginView(APIView):
 
 class PropertyListCreateView(generics.ListCreateAPIView):
     authentication_classes=[JWTAuthentication]
-    permission_classes=[IsAuthenticated,IsAdminOrReadOnly]
+    permission_classes=[IsAdminOrReadOnly]
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
 
 class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes=[JWTAuthentication]
-    permission_classes=[IsAuthenticated,IsAdminOrReadOnly]
+    permission_classes=[IsAdminOrReadOnly]
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
+    def perform_destroy(self, instance):
+        # Delete associated units
+        units = Unit.objects.filter(property=instance)
+        units.delete()
+        # Delete the property
+        instance.delete()
 
 class UnitListCreateView(generics.ListCreateAPIView):
     authentication_classes=[JWTAuthentication]
-    permission_classes=[IsAuthenticated,IsAdminOrReadOnly]
+    permission_classes=[IsAdminOrReadOnly]
     queryset = Unit.objects.all()
     serializer_class = UnitSerializer
 
 class UnitDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes=[JWTAuthentication]
-    permission_classes=[IsAuthenticated,IsAdminOrReadOnly]
+    permission_classes=[IsAdminOrReadOnly]
     queryset = Unit.objects.all()
     serializer_class = UnitSerializer
 
