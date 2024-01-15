@@ -7,7 +7,9 @@ class Property(models.Model):
     address = models.TextField()
     location = PlainLocationField(based_fields=['address'], zoom=7)
     image = models.ImageField(upload_to='property_images/', blank=True, null=True)
-
+    @property
+    def property_units(self):
+        return self.units_set.all()
     
 
 class Unit(models.Model):

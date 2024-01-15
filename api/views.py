@@ -54,6 +54,27 @@ class UnitListCreateView(generics.ListCreateAPIView):
     permission_classes=[IsAdminOrReadOnly]
     queryset = Unit.objects.all()
     serializer_class = UnitSerializer
+    # def perform_create(self, serializer):
+    #     # Automatically set the property based on the request
+    #     serializer.save(property_id=self.kwargs['property_id'])
+
+    # def get_queryset(self):
+    #     # Filter units based on the property ID in the URL
+    #     property_id = self.kwargs['property_id']
+    #     return Unit.objects.filter(property_id=property_id)
+
+class UnitListView(generics.ListCreateAPIView):
+    authentication_classes=[JWTAuthentication]
+    permission_classes=[IsAdminOrReadOnly]
+    queryset = Unit.objects.all()
+    serializer_class = UnitSerializer
+    
+
+    def get_queryset(self):
+        # Filter units based on the property ID in the URL
+        property_id = self.kwargs['property_id']
+        return Unit.objects.filter(property_id=property_id)
+
 
 class UnitDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes=[JWTAuthentication]

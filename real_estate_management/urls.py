@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import LoginView,PropertyListCreateView, PropertyDetailView, UnitListCreateView, UnitDetailView, TenantListCreateView, TenantDetailView,PropertySearchAPIView
+from api.views import LoginView,PropertyListCreateView, PropertyDetailView,UnitListView, UnitListCreateView, UnitDetailView, TenantListCreateView, TenantDetailView,PropertySearchAPIView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/properties/', PropertyListCreateView.as_view(), name='property-list'),
     path('api/properties/<int:pk>/', PropertyDetailView.as_view(), name='property-detail'),
     path('api/units/', UnitListCreateView.as_view(), name='unit-list'),
+    path('api/properties/<int:property_id>/units/', UnitListView.as_view(), name='unit-list'),
     path('api/units/<int:pk>/', UnitDetailView.as_view(), name='unit-detail'),
     path('api/tenants/', TenantListCreateView.as_view(), name='tenant-list'),
     path('api/tenants/<int:pk>/', TenantDetailView.as_view(), name='tenant-detail'),
